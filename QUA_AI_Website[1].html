@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUA AI - Artificial Intelligence Platform</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --purple: #7c3aed;
+  --purple-dark: #5b21b6;
+  --purple-light: #a78bfa;
+  --red: #dc2626;
+  --red-dark: #991b1b;
+  --red-light: #f87171;
+  --black: #0a0a0a;
+  --black-light: #171717;
+  --gray: #262626;
+  --gray-light: #404040;
+  --white: #fafafa;
+  --text-muted: #a3a3a3;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ========== ANIMATED BACKGROUND ========== */
+.bg-animation {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  z-index: -1;
+  background: 
+    radial-gradient(ellipse at 20% 80%, rgba(124,58,237,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(220,38,38,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(124,58,237,0.05) 0%, transparent 70%);
+}
+
+.bg-animation::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(124,58,237,0.03) 2px,
+    rgba(124,58,237,0.03) 4px
+  );
+  animation: scan 8s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* ========== AUTH PAGES ========== */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+}
+
+.auth-box {
+  background: linear-gradient(145deg, var(--black-light), var(--gray));
+  border: 1px solid var(--gray-light);
+  border-radius: 24px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 60px rgba(124,58,237,0.2),
+    0 0 120px rgba(220,38,38,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.auth-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--red), var(--purple));
+  animation: gradient-shift 3s ease infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-logo-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(124,58,237,0.5)); }
+  50% { filter: drop-shadow(0 0 25px rgba(220,38,38,0.6)); }
+}
+
+.auth-logo h1 {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--purple-light), var(--red-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.auth-logo p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  background: var(--black);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-light);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.auth-tab.active {
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  color: var(--white);
+  box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+}
+
+.auth-tab:hover:not(.active) {
+  color: var(--white);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--black);
+  border: 1px solid var(--gray-light);
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.2), 0 0 20px rgba(124,58,237,0.1);
+}
+
+.form-input::placeholder {
+  color: #525252;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  border: none;
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.auth-btn:hover::before {
+  left: 100%;
+}
+
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(124,58,237,0.4), 0 10px 40px rgba(220,38,38,0.2);
+}
+
+.auth-btn:active {
+  transform: translateY(0);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.auth-footer a {
+  color: var(--purple-light);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-footer a:hover {
+  color: var(--red-light);
+}
+
+.hidden { display: none !important; }
+
+/* ========== MAIN APP ========== */
+.app-container {
+  display: none;
+  min-height: 100vh;
+}
+
+.app-container.active {
+  display: flex;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, var(--black-light), var(--black));
+  border-right: 1px solid var(--gray-light);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-brand-icon {
+  font-size: 28px;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.sidebar-brand-text {
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--purple-light), var(--red-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebar-user {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-light);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+.nav-section {
+  margin-bottom: 20px;
+}
+
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: rgba(124,58,237,0.1);
+  color: var(--white);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(220,38,38,0.1));
+  color: var(--white);
+  border: 1px solid rgba(124,58,237,0.3);
+}
+
+.nav-item-icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--gray-light);
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--gray-light);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  border-color: var(--red);
+  color: var(--red-light);
+  background: rgba(220,38,38,0.1);
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar {
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--gray-light);
+  background: rgba(10,10,10,0.8);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lang-selector {
+  padding: 8px 14px;
+  background: var(--black-light);
+  border: 1px solid var(--gray-light);
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.lang-selector option {
+  background: var(--black-light);
+}
+
+/* ========== PAGE CONTENT ========== */
+.page-content {
+  flex: 1;
+  padding: 28px;
+  display: none;
+}
+
+.page-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== CHATBOT ========== */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 140px);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-welcome {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.chat-welcome-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.chat-welcome h2 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--purple-light), var(--red-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.chat-welcome p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  max-width: 80%;
+  animation: messageSlide 0.3s ease;
+}
+
+@keyframes messageSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.message.user .message-avatar {
+  background: linear-gradient(135deg, var(--purple), var(--red));
+}
+
+.message.bot .message-avatar {
+  background: linear-gradient(135deg, var(--red), var(--purple));
+}
+
+.message-content {
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.message.user .message-content {
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  color: var(--white);
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot .message-content {
+  background: var(--gray);
+  color: var(--white);
+  border: 1px solid var(--gray-light);
+  border-bottom-left-radius: 4px;
+}
+
+.chat-input-area {
+  padding: 20px;
+  border-top: 1px solid var(--gray-light);
+}
+
+.chat-input-wrapper {
+  display: flex;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--black-light);
+  border: 1px solid var(--gray-light);
+  border-radius: 16px;
+  padding: 8px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+}
+
+.chat-input::placeholder {
+  color: #525252;
+}
+
+.chat-send-btn {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  border: none;
+  border-radius: 12px;
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.chat-send-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+}
+
+/* ========== AI TOOLS ========== */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.tool-card {
+  background: linear-gradient(145deg, var(--black-light), var(--gray));
+  border: 1px solid var(--gray-light);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--red));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tool-card:hover::before {
+  transform: scaleX(1);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--purple);
+  box-shadow: 0 20px 40px rgba(124,58,237,0.2), 0 0 60px rgba(220,38,38,0.1);
+}
+
+.tool-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.tool-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.tool-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.tool-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--purple), var(--red));
+  border: none;
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tool-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+}
+
+/* ========== AI INFO ========== */
+.info-hero {
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 32px;
+}
+
+.info-hero h2 {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--purple-light), var(--red-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.info-hero p {
+  color: var(--text-muted);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.info-section {
+  margin-bottom: 32px;
+}
+
+.info-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gray-light), transparent);
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.info-card {
+  background: var(--black-light);
+  border: 1px solid var(--gray-light);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.info-card:hover {
+  border-color: var(--purple);
+  transform: translateY(-2px);
+}
+
+.info-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.info-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ========== MOBILE ========== */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .tools-grid, .info-cards {
+    grid-template-columns: 1fr;
+  }
+  .chat-container {
+    height: calc(100vh - 120px);
+  }
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-light);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--purple);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-animation"></div>
+
+<!-- ==================== AUTH PAGE ==================== -->
+<div class="auth-container" id="authPage">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">🤖</div>
+      <h1>QUA AI</h1>
+      <p>Artificial Intelligence Platform</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')" id="loginTab">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('register')" id="registerTab">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="auth-btn">Sign In</button>
+    </form>
+
+    <!-- Register Form -->
+    <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-input" id="regName" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="regEmail" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="regPassword" placeholder="••••••••" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <input type="password" class="form-input" id="regConfirm" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="auth-btn">Create Account</button>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== MAIN APP ==================== -->
+<div class="app-container" id="appPage">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">🤖</div>
+        <div class="sidebar-brand-text">QUA AI</div>
+      </div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="userAvatar">U</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">User</div>
+        <div class="user-email" id="userEmail">user@email.com</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Main</div>
+        <button class="nav-item active" onclick="showPage('chat')">
+          <span class="nav-item-icon">💬</span>
+          <span>Chatbot</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">AI Tools</div>
+        <button class="nav-item" onclick="showPage('tools')">
+          <span class="nav-item-icon">🛠️</span>
+          <span>AI Tools</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Learn</div>
+        <button class="nav-item" onclick="showPage('info')">
+          <span class="nav-item-icon">📚</span>
+          <span>About AI</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="logout()">
+        <span>🚪</span>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" id="pageTitle">Chatbot</div>
+      <div class="topbar-actions">
+        <select class="lang-selector" id="langSelector" onchange="changeLanguage(this.value)">
+          <option value="en">🇺🇸 English</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="zh">🇨🇳 中文</option>
+          <option value="ja">🇯🇵 日本語</option>
+          <option value="ko">🇰🇷 한국어</option>
+          <option value="ru">🇷🇺 Русский</option>
+          <option value="pt">🇧🇷 Português</option>
+          <option value="hi">🇮🇳 हिन्दी</option>
+          <option value="tr">🇹🇷 Türkçe</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Chatbot Page -->
+    <div class="page-content active" id="chatPage">
+      <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-welcome">
+            <div class="chat-welcome-icon">🤖</div>
+            <h2>QUA AI Assistant</h2>
+            <p>Ask me anything about AI, programming, or general knowledge!</p>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="chat-send-btn" onclick="sendMessage()">Send ➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Tools Page -->
+    <div class="page-content" id="toolsPage">
+      <div class="info-hero">
+        <h2>🛠️ AI Tools</h2>
+        <p>Powerful artificial intelligence tools at your fingertips</p>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-icon">📝</div>
+          <div class="tool-title">Text Generator</div>
+          <div class="tool-desc">Generate high-quality text content for blogs, essays, and creative writing.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">🎨</div>
+          <div class="tool-title">Image Creator</div>
+          <div class="tool-desc">Create stunning AI-generated images from text descriptions.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">💻</div>
+          <div class="tool-title">Code Assistant</div>
+          <div class="tool-desc">Get help writing, debugging, and optimizing code in any language.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">🌐</div>
+          <div class="tool-title">Translator</div>
+          <div class="tool-desc">Translate text between 100+ languages with AI-powered accuracy.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">📊</div>
+          <div class="tool-title">Data Analyzer</div>
+          <div class="tool-desc">Analyze datasets and generate insights with machine learning.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">🎵</div>
+          <div class="tool-title">Music Generator</div>
+          <div class="tool-desc">Create original music and soundtracks using AI composition.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">🎬</div>
+          <div class="tool-title">Video Creator</div>
+          <div class="tool-desc">Generate and edit videos with AI-powered tools and effects.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon">🔍</div>
+          <div class="tool-title">Research Assistant</div>
+          <div class="tool-desc">Summarize papers, find sources, and organize research automatically.</div>
+          <button class="tool-btn">Launch Tool</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Info Page -->
+    <div class="page-content" id="infoPage">
+      <div class="info-hero">
+        <h2>📚 About Artificial Intelligence</h2>
+        <p>Everything you need to know about AI, from basics to advanced concepts</p>
+      </div>
+
+      <div class="info-section">
+        <div class="info-section-title">🧠 What is AI?</div>
+        <div class="info-cards">
+          <div class="info-card">
+            <h4>Definition</h4>
+            <p>Artificial Intelligence (AI) is the simulation of human intelligence processes by computer systems. These processes include learning, reasoning, and self-correction.</p>
+          </div>
+          <div class="info-card">
+            <h4>History</h4>
+            <p>The term was coined in 1956 by John McCarthy. AI has evolved from simple rule-based systems to modern deep learning and neural networks.</p>
+          </div>
+          <div class="info-card">
+            <h4>Types of AI</h4>
+            <p>Narrow AI (specific tasks), General AI (human-level), and Superintelligent AI (beyond human capabilities). Currently, we only have Narrow AI.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-section-title">🔧 Key Technologies</div>
+        <div class="info-cards">
+          <div class="info-card">
+            <h4>Machine Learning</h4>
+            <p>Algorithms that allow computers to learn from data without being explicitly programmed. Includes supervised, unsupervised, and reinforcement learning.</p>
+          </div>
+          <div class="info-card">
+            <h4>Deep Learning</h4>
+            <p>Neural networks with many layers that can learn complex patterns. Powers image recognition, natural language processing, and autonomous driving.</p>
+          </div>
+          <div class="info-card">
+            <h4>Natural Language Processing</h4>
+            <p>Enables computers to understand, interpret, and generate human language. Used in chatbots, translation, and sentiment analysis.</p>
+          </div>
+          <div class="info-card">
+            <h4>Computer Vision</h4>
+            <p>Allows machines to interpret and understand visual information from the world. Used in facial recognition, medical imaging, and self-driving cars.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-section-title">🌍 Applications</div>
+        <div class="info-cards">
+          <div class="info-card">
+            <h4>Healthcare</h4>
+            <p>AI assists in diagnosing diseases, drug discovery, personalized medicine, and robotic surgery with unprecedented accuracy.</p>
+          </div>
+          <div class="info-card">
+            <h4>Finance</h4>
+            <p>Algorithmic trading, fraud detection, credit scoring, and automated customer service transform the financial industry.</p>
+          </div>
+          <div class="info-card">
+            <h4>Transportation</h4>
+            <p>Self-driving vehicles, traffic optimization, and predictive maintenance revolutionize how we move.</p>
+          </div>
+          <div class="info-card">
+            <h4>Education</h4>
+            <p>Personalized learning, automated grading, and intelligent tutoring systems adapt to each student's needs.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-section-title">⚠️ Ethics & Future</div>
+        <div class="info-cards">
+          <div class="info-card">
+            <h4>Ethical Concerns</h4>
+            <p>Bias in algorithms, privacy issues, job displacement, and the need for transparent AI decision-making processes.</p>
+          </div>
+          <div class="info-card">
+            <h4>Future of AI</h4>
+            <p>AGI (Artificial General Intelligence), quantum AI, brain-computer interfaces, and the potential for AI to solve global challenges.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ========== AUTH SYSTEM ==========
+function switchTab(tab) {
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+
+  if (tab === 'login') {
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    loginForm.classList.remove('hidden');
+    registerForm.classList.add('hidden');
+  } else {
+    loginTab.classList.remove('active');
+    registerTab.classList.add('active');
+    loginForm.classList.add('hidden');
+    registerForm.classList.remove('hidden');
+  }
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const password = document.getElementById('regPassword').value;
+  const confirm = document.getElementById('regConfirm').value;
+
+  if (password !== confirm) {
+    alert('Passwords do not match!');
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('quaUsers') || '[]');
+  if (users.find(u => u.email === email)) {
+    alert('Email already registered!');
+    return;
+  }
+
+  users.push({ name, email, password });
+  localStorage.setItem('quaUsers', JSON.stringify(users));
+  alert('Account created successfully! Please sign in.');
+  switchTab('login');
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  const users = JSON.parse(localStorage.getItem('quaUsers') || '[]');
+  const user = users.find(u => u.email === email && u.password === password);
+
+  if (!user) {
+    alert('Invalid email or password!');
+    return;
+  }
+
+  localStorage.setItem('quaCurrentUser', JSON.stringify(user));
+  showApp(user);
+}
+
+function showApp(user) {
+  document.getElementById('authPage').classList.add('hidden');
+  document.getElementById('appPage').classList.add('active');
+  document.getElementById('userName').textContent = user.name;
+  document.getElementById('userEmail').textContent = user.email;
+  document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+}
+
+function logout() {
+  localStorage.removeItem('quaCurrentUser');
+  document.getElementById('appPage').classList.remove('active');
+  document.getElementById('authPage').classList.remove('hidden');
+  document.getElementById('loginForm').reset();
+  document.getElementById('registerForm').reset();
+}
+
+// Check if already logged in
+window.onload = function() {
+  const currentUser = localStorage.getItem('quaCurrentUser');
+  if (currentUser) {
+    showApp(JSON.parse(currentUser));
+  }
+};
+
+// ========== NAVIGATION ==========
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const titles = { chat: 'Chatbot', tools: 'AI Tools', info: 'About AI' };
+  document.getElementById('pageTitle').textContent = titles[page];
+
+  if (page === 'chat') {
+    document.getElementById('chatPage').classList.add('active');
+    document.querySelectorAll('.nav-item')[0].classList.add('active');
+  } else if (page === 'tools') {
+    document.getElementById('toolsPage').classList.add('active');
+    document.querySelectorAll('.nav-item')[1].classList.add('active');
+  } else if (page === 'info') {
+    document.getElementById('infoPage').classList.add('active');
+    document.querySelectorAll('.nav-item')[2].classList.add('active');
+  }
+
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ========== CHATBOT ==========
+const botResponses = {
+  en: {
+    greetings: ["Hello! How can I help you today?", "Hi there! What would you like to know?", "Welcome! I'm ready to assist you."],
+    ai: ["AI stands for Artificial Intelligence. It's the simulation of human intelligence by machines.", "Artificial Intelligence enables machines to learn from experience, adjust to new inputs, and perform human-like tasks.", "AI includes machine learning, deep learning, natural language processing, and computer vision."],
+    programming: ["I can help with programming in Python, JavaScript, C++, and more!", "Programming is the process of creating instructions for computers to follow.", "Would you like help with a specific programming language or concept?"],
+    default: ["That's an interesting question! Let me think about it.", "I'm still learning, but I'd love to help you explore that topic.", "Great question! AI is constantly evolving, and there's always more to discover."]
+  },
+  ar: {
+    greetings: ["مرحباً! كيف يمكنني مساعدتك اليوم؟", "أهلاً بك! ماذا تريد أن تعرف؟", "مرحباً! أنا جاهز لمساعدتك."],
+    ai: ["الذكاء الاصطناعي هو محاكاة الذكاء البشري بواسطة الآلات.", "الذكاء الاصطناعي يمكّن الآلات من التعلم من التجربة والتكيف مع المدخلات الجديدة.", "يشمل الذكاء الاصطناعي التعلم الآلي والتعلم العميق ومعالجة اللغات الطبيعية والرؤية الحاسوبية."],
+    programming: ["يمكنني المساعدة في البرمجة بلغات Python وJavaScript وC++ وغيرها!", "البرمجة هي عملية إنشاء تعليمات للحواسيب.", "هل تريد مساعدة في لغة برمجة أو مفهوم معين؟"],
+    default: ["سؤال مثير للاهتمام! دعني أفكر فيه.", "ما زلت أتعلم، لكنني أحب مساعدتك في استكشاف هذا الموضوع.", "سؤال رائع! الذكاء الاصطناعي يتطور باستمرار."]
+  }
+};
+
+let currentLang = 'en';
+
+function changeLanguage(lang) {
+  currentLang = lang;
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  if (!message) return;
+
+  const messagesContainer = document.getElementById('chatMessages');
+
+  // Remove welcome if exists
+  const welcome = messagesContainer.querySelector('.chat-welcome');
+  if (welcome) welcome.remove();
+
+  // Add user message
+  addMessage(message, 'user');
+  input.value = '';
+
+  // Bot response
+  setTimeout(() => {
+    const responses = botResponses[currentLang] || botResponses.en;
+    let response;
+    const lowerMsg = message.toLowerCase();
+
+    if (lowerMsg.includes('hi') || lowerMsg.includes('hello') || lowerMsg.includes('hey') || lowerMsg.includes('مرحب')) {
+      response = responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+    } else if (lowerMsg.includes('ai') || lowerMsg.includes('artificial') || lowerMsg.includes('intelligence') || lowerMsg.includes('ذكاء')) {
+      response = responses.ai[Math.floor(Math.random() * responses.ai.length)];
+    } else if (lowerMsg.includes('code') || lowerMsg.includes('program') || lowerMsg.includes('برمج')) {
+      response = responses.programming[Math.floor(Math.random() * responses.programming.length)];
+    } else {
+      response = responses.default[Math.floor(Math.random() * responses.default.length)];
+    }
+
+    addMessage(response, 'bot');
+  }, 800);
+}
+
+function addMessage(text, sender) {
+  const container = document.getElementById('chatMessages');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'message ' + sender;
+  msgDiv.innerHTML = `
+    <div class="message-avatar">${sender === 'user' ? '👤' : '🤖'}</div>
+    <div class="message-content">${escapeHtml(text)}</div>
+  `;
+  container.appendChild(msgDiv);
+  container.scrollTop = container.scrollHeight;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+</script>
+
+</body>
+</html>
